@@ -1,7 +1,7 @@
-```Markdown
+Markdown
 # Kitty Corp Enterprise Load & WAF Bypass Suite 🐾
 
-```text
+text
     =========================================================================
                          /\_/\           /\_/\   
                         ( o.o )         ( ^.^ )  
@@ -22,38 +22,54 @@ An enterprise-grade, high-concurrency asynchronous HTTP benchmark, stress-testin
 ⚡ Quick Start: One-Click Execution
 🪟 Windows Setup & Execution
 Option A: Windows PowerShell (Requires .\)
+
+
 PowerShell
+```
+
 git clone [https://github.com/psychspy7/hydra.git](https://github.com/psychspy7/hydra.git)
 cd hydra
 .\run_windows.bat
+
+```
 Note for PowerShell users: Windows PowerShell does not execute local scripts without the relative path prefix. Always use .\run_windows.bat instead of just run_windows.bat.
 
 Option B: Windows Command Prompt (CMD)
 DOS
+```
 git clone [https://github.com/psychspy7/hydra.git](https://github.com/psychspy7/hydra.git)
 cd hydra
 run_windows.bat
+```
 Option C: Direct Python Execution (Windows)
 If running manually without the batch launcher:
 
 PowerShell
+```
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 python kitty_tester.py
+
+```
 🐉 Linux Setup & Execution (Kali Linux / Ubuntu / Debian)
-Bash
+```Bash
 git clone [https://github.com/psychspy7/hydra.git](https://github.com/psychspy7/hydra.git)
 cd hydra
 chmod +x run_kali.sh
 ./run_kali.sh
+
+```
 Direct Python Execution (Linux)
-Bash
+```Bash
 ulimit -n 65535
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python3 kitty_tester.py
+
+
+```
 🛠️ How It Works & Architecture
 The testing suite uses Python's asynchronous I/O engine (asyncio and aiohttp) with a custom TCP connection pool to generate controlled high-volume web traffic without exhausting local memory or CPU.
 
@@ -109,14 +125,16 @@ python kitty_tester.py --url [http://127.0.0.1:8080](http://127.0.0.1:8080) --mo
 Third-Party Tool Integrations
 Locust: Run distributed user load tests via the web interface:
 
-Bash
+```Bash
 locust -f locustfile.py --host=[https://your-website.com](https://your-website.com)
 (Dashboard runs at http://127.0.0.1:8089)
 
+```
 k6: Run threshold-gated performance tests:
 
-Bash
+```Bash
 k6 run load_test_k6.js
+```
 📊 Telemetry & Audit Reports
 During runtime, the console displays a live dynamic progress bar with completed request tallies, real-time requests-per-second (RPS), and error counters.
 
@@ -131,7 +149,7 @@ Status Code Breakdown: Aggregated HTTP response codes (2xx, 3xx, 4xx, 5xx).
 JSON Export: Automatically writes full telemetry to kitty_enterprise_report_<timestamp>.json for CI/CD integration.
 
 📁 Repository Structure
-Plaintext
+```Plaintext
 ├── kitty_tester.py       # Asynchronous load testing engine & WAF evasion logic
 ├── run_windows.bat       # Windows launcher (initializes .venv, installs deps, runs suite)
 ├── run_kali.sh           # Linux launcher (sets ulimit, configures environment, runs suite)
@@ -140,6 +158,7 @@ Plaintext
 ├── load_test_k6.js       # k6 performance script with latency threshold checks
 ├── requirements.txt      # Python dependencies (aiohttp, colorama, locust)
 └── README.md             # Project documentation
+```
 ⚠️ Disclaimer
 This utility is developed strictly for educational, research, and authorized capacity benchmarking purposes on systems you own or have explicit written permission to test. Unauthorized load testing against third-party web services may violate terms of service and relevant cybersecurity regulations.
 
