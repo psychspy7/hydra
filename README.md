@@ -28,7 +28,7 @@ Option A: Windows PowerShell (Requires .\)
 PowerShell
 ```
 
-git clone [https://github.com/psychspy7/hydra.git](https://github.com/psychspy7/hydra.git)
+git clone https://github.com/psychspy7/hydra.git
 cd hydra
 .\run_windows.bat
 
@@ -38,7 +38,7 @@ Note for PowerShell users: Windows PowerShell does not execute local scripts wit
 Option B: Windows Command Prompt (CMD)
 DOS
 ```
-git clone [https://github.com/psychspy7/hydra.git](https://github.com/psychspy7/hydra.git)
+git clone https://github.com/psychspy7/hydra.git
 cd hydra
 run_windows.bat
 ```
@@ -55,7 +55,7 @@ python kitty_tester.py
 ```
 🐉 Linux Setup & Execution (Kali Linux / Ubuntu / Debian)
 ```Bash
-git clone [https://github.com/psychspy7/hydra.git](https://github.com/psychspy7/hydra.git)
+git clone https://github.com/psychspy7/hydra.git
 cd hydra
 chmod +x run_kali.sh
 ./run_kali.sh
@@ -127,7 +127,7 @@ Third-Party Tool Integrations
 Locust: Run distributed user load tests via the web interface:
 
 ```Bash
-locust -f locustfile.py --host=[https://your-website.com](https://your-website.com)
+locust -f locustfile.py --host=[https://your-website.com]
 (Dashboard runs at http://127.0.0.1:8089)
 
 ```
