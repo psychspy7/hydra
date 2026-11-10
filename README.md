@@ -1,5 +1,5 @@
 ```markdown
-# Kitty Corp Advanced Enterprise Load & Stress Testing Suite 🐾
+# Kitty Corp Enterprise Load & WAF Bypass Suite 🐾
 
 ```text
     =========================================================================
@@ -20,89 +20,138 @@
 
 ```
 
-An enterprise-grade, high-concurrency asynchronous HTTP benchmark, load, and WAF-bypass testing suite engineered for **AI-generated websites** and **manual web server stress testing**. Built natively for **Kali Linux, Ubuntu, and Windows**.
+An enterprise-grade, high-concurrency asynchronous HTTP benchmark, load testing, and WAF-evasion suite engineered for **AI-generated websites** and **server stress benchmarking**. Designed for seamless execution across **Kali Linux, Ubuntu, and Windows**.
 
 ---
 
-## ✨ Key Features & Capabilities
+## ✨ Features & Architecture
 
-* **10,000+ Requests Engine**: Built on asynchronous `asyncio` and `aiohttp` connection pooling capable of dispatching thousands of requests rapidly with minimal CPU/RAM overhead.
-* **Advanced WAF & Cloudflare 403 Evasion**:
-* Rotates modern browser signatures (Chrome 131, Firefox 133, Safari 18, Edge, Mobile).
-* Injects realistic browser headers (`Sec-Ch-Ua`, `Sec-Fetch-Dest`, `Sec-Fetch-Mode`, `Sec-Fetch-Site`, `Accept-Language`).
+* **High-Throughput Asynchronous Engine**: Powered by Python `asyncio` and `aiohttp` connection pooling, allowing execution of 10,000+ requests with minimal system overhead.
+* **WAF & Cloudflare 403 Evasion**:
+* Rotating modern user agents across Chrome 131, Firefox 133, Safari 18, Edge, and iOS Mobile.
+* Browser client-hint emulation (`Sec-Ch-Ua`, `Sec-Fetch-Dest`, `Sec-Fetch-Mode`, `Sec-Fetch-Site`, `Accept-Language`, `Upgrade-Insecure-Requests`).
 
 
-* **Multi-Path Crawling Distribution**: Dynamically spreads traffic across common routes (`/`, `/index.html`, `/#about`, `/#contact`) to prevent hitting the exact same route repeatedly and triggering firewall/bot rate-limits.
+* **Multi-Path Route Dispersion**: Spreads requests across multiple routes (`/`, `/index.html`, `/#about`, `/#contact`) instead of hitting a static endpoint repeatedly to mitigate firewall rate-limiting rules.
 * **Dual Testing Modes**:
-1. **Mode 1: Normal Mode** — Balanced multi-path balanced load with controlled concurrency (200 workers) and steady pacing.
-2. **Mode 2: Intense Mode** — High-throughput stress burst (500 workers) with dynamic cache-busting query strings (`_kc_cb`) and randomized search engine referers (`Google`, `X.com`, `GitHub`).
+* **Mode 1: Normal Mode** — Balanced multi-path testing with controlled concurrency (200 parallel workers) and keep-alive connection pooling.
+* **Mode 2: Intense Mode** — High-concurrency stress burst (500 parallel workers) with dynamic cache-busting query strings (`_kc_cb`) and search/social referer injection (`Google`, `X`, `GitHub`).
 
 
-* **Detailed Latency Percentiles**: Calculates real-time **P50, P90, P95, and P99** latencies alongside average/min/max metrics.
-* **Automated JSON Audit Reports**: Automatically saves full performance audit telemetry to `kitty_enterprise_report_<timestamp>.json` after every run.
-* **Multi-Tool Integration Support**: Includes native integration templates for **Locust** and **k6**.
+* **Telemetry & Percentile Auditing**:
+* Real-time terminal progress monitor displaying completion percentage, live RPS, and status counters.
+* Computes **P50, P90, P95, and P99** latency percentiles alongside min/max/average timings.
+* Exports audit results to a timestamped JSON report (`kitty_enterprise_report_<timestamp>.json`).
+
+
+* **Cross-Platform Tooling**: Includes ready-to-run integration configurations for **Locust** (`locustfile.py`), **k6** (`load_test_k6.js`), and a standalone mock test server (`local_test_server.py`).
 
 ---
 
-## 🚀 Quick Start Guide
+## 📁 Repository Structure
+
+```text
+├── kitty_tester.py       # Main enterprise load testing engine
+├── run_kali.sh           # Automated setup & launcher for Kali Linux / Ubuntu / macOS
+├── run_windows.bat       # Automated setup & launcher for Windows
+├── local_test_server.py  # Local async mock server ([http://127.0.0.1:8080](http://127.0.0.1:8080))
+├── locustfile.py         # Distributed load testing configuration for Locust
+├── load_test_k6.js       # Threshold-gated performance script for k6
+├── requirements.txt      # Python dependencies (aiohttp, colorama, locust)
+└── README.md             # Project documentation
+
+```
+
+---
+
+## 🚀 Quick Start
 
 ### 🐉 Kali Linux / Ubuntu / macOS
 
+Make the launch script executable and start the suite:
+
 ```bash
-git clone [https://github.com/your-username/kitty-corp-advanced-load-suite.git](https://github.com/your-username/kitty-corp-advanced-load-suite.git)
-cd kitty-corp-advanced-load-suite
+git clone [https://github.com/psychspy7/hydra.git](https://github.com/psychspy7/hydra.git)
+cd hydra
 chmod +x run_kali.sh
 ./run_kali.sh
 
 ```
 
+*(The script automatically raises file descriptor limits via `ulimit -n 65535`, initializes a virtual environment, installs dependencies, and launches the engine.)*
+
+---
+
 ### 🪟 Windows (Command Prompt / PowerShell)
 
-Double-click **`run_windows.bat`** or execute in terminal:
+1. Clone or download the repository:
+```cmd
+git clone [https://github.com/psychspy7/hydra.git](https://github.com/psychspy7/hydra.git)
+cd hydra
 
+```
+
+
+2. Run the automated Windows launcher:
 ```cmd
 run_windows.bat
 
 ```
 
+
+*(Or execute manually in PowerShell: `python kitty_tester.py` or `py kitty_tester.py`)*
+
 ---
 
-## 💻 Direct CLI & Advanced Tooling
+## 💻 Manual & CLI Usage
 
-### 1. Direct Python CLI Usage
+### Direct Script Execution
 
 ```bash
+# Install dependencies
 pip install -r requirements.txt
 
-# Interactive Mode
+# Interactive terminal menu (Banner, legal gate, prompts)
 python3 kitty_tester.py
 
-# Direct Execution (10,000 requests in Intense Mode)
-python3 kitty_tester.py --url [https://thekittycorp.com](https://thekittycorp.com) --mode 2 --requests 10000
+# Direct command-line execution (10,000 requests, Intense Mode)
+python3 kitty_tester.py --url [https://example.com](https://example.com) --mode 2 --requests 10000
+
+# Custom concurrency override (e.g., 300 concurrent workers)
+python3 kitty_tester.py --url [https://example.com](https://example.com) --mode 2 --requests 10000 --concurrency 300
 
 ```
 
-### 2. Local Sandbox Testing Server
+### Local Offline Testing
 
-Want to test the 10,000-request engine safely on your own machine before pointing it elsewhere? Start the local sandbox server in another terminal window:
+Before running external tests, benchmark the load engine on your local machine using the built-in mock server:
 
+1. Launch the local mock server in terminal 1:
 ```bash
 python3 local_test_server.py
 
 ```
 
-*(Then point `kitty_tester.py` to `http://127.0.0.1:8080`).*
 
-### 3. Industry-Standard Integrations Included
-
-* **Locust (Python Distributed Testing)**:
+2. Run the tester targeting the mock server in terminal 2:
 ```bash
-locust -f locustfile.py --host=[https://thekittycorp.com](https://thekittycorp.com)
+python3 kitty_tester.py --url [http://127.0.0.1:8080](http://127.0.0.1:8080) --mode 2 --requests 10000
 
 ```
 
 
-* **k6 (Developer Performance Testing)**:
+
+### Running with Locust & k6
+
+* **Locust**:
+```bash
+locust -f locustfile.py --host=[https://example.com](https://example.com)
+
+```
+
+
+Access the web interface at `http://127.0.0.1:8089`.
+* **k6**:
 ```bash
 k6 run load_test_k6.js
 
@@ -112,9 +161,9 @@ k6 run load_test_k6.js
 
 ---
 
-## ⚠️ Disclaimer
+## ⚠️ Disclaimer & Legal Notice
 
-This tool is strictly intended for **educational and research purposes**, and for performance benchmarking infrastructure you own or have explicit written permission to test. You are solely responsible for every action performed with this tool.
+This utility is strictly intended for **educational, research, and authorized capacity benchmarking** purposes on infrastructure you personally own or have explicit written authorization to test. Unauthorized stress testing against third-party infrastructure may violate terms of service and applicable cyber legislation.
 
 **made by kitty corp** | [https://thekittycorp.com/ - support us 🩷](https://thekittycorp.com/)
 
