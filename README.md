@@ -71,7 +71,7 @@ An enterprise-grade, high-concurrency asynchronous HTTP benchmark, load testing,
 Make the launch script executable and start the suite:
 
 ```bash
-git clone [https://github.com/psychspy7/hydra.git](https://github.com/psychspy7/hydra.git)
+git clone https://github.com/psychspy7/hydra.git
 cd hydra
 chmod +x run_kali.sh
 ./run_kali.sh
@@ -86,7 +86,7 @@ chmod +x run_kali.sh
 
 1. Clone or download the repository:
 ```cmd
-git clone [https://github.com/psychspy7/hydra.git](https://github.com/psychspy7/hydra.git)
+git clone https://github.com/psychspy7/hydra.git
 cd hydra
 
 ```
