@@ -24,7 +24,6 @@ try:
 except ImportError:
     aiohttp = None
 
-# ANSI Color Palette (Obsidian / Red / Green / Cyan High-Contrast Theme)
 RED = "\033[91m"
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
@@ -34,7 +33,6 @@ WHITE = "\033[97m"
 BOLD = "\033[1m"
 RESET = "\033[0m"
 
-# Enterprise-grade realistic browser signatures (Bypasses WAF & Cloudflare 403 bot blocks)
 BROWSER_USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_7_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.1 Safari/605.1.15",
@@ -51,44 +49,40 @@ def clear_screen():
 
 def print_banner():
     clear_screen()
-    banner = f"""
-{RED}{BOLD}    ========================================================================={RESET}
-{GREEN}{BOLD}                         /\\_/\\           /\\_/\\   
-                        ( {RED}o.o{GREEN} )         ( {RED}^.^^{\GREEN} )  
-                         > {RED}^{GREEN} <           > {RED}w{GREEN} <   
-                       /|     |\\       /|     |\\ 
-                      (_|     |_)     (_|     |_){RESET}
-{RED}{BOLD}          _  _____ _____ _______   __   ____ ___  ____  ____  
-         | |/ /_ _|_   _|_   _\\ \\ / /  / ___/ _ \\|  _ \\|  _ \\ 
-         | ' / | |  | |   | |  \\ V /  | |  | | | | |_) | |_) |
-         | . \\ | |  | |   | |   | |   | |__| |_| |  _ <|  __/ 
-         |_|\\_\\___| |_|   |_|   |_|    \\____\\___/|_|\\_\\_|    {RESET}
-
-{GREEN}{BOLD}                        [ made by kitty corp ]{RESET}
-{RED}{BOLD}               https://thekittycorp.com/ - support us 🩷{RESET}
-{GREEN}      Advanced Enterprise Load Testing & WAF Bypass Suite | Kali & Windows{RESET}
-{RED}{BOLD}    ========================================================================={RESET}
-"""
-    print(banner)
+    print(RED + BOLD + "    =========================================================================" + RESET)
+    print(GREEN + BOLD + "                         /\\_/\\           /\\_/\\   " + RESET)
+    print(GREEN + BOLD + "                        ( " + RED + "o.o" + GREEN + " )         ( " + RED + "^.^" + GREEN + " )  " + RESET)
+    print(GREEN + BOLD + "                         > " + RED + "^" + GREEN + " <           > " + RED + "w" + GREEN + " <   " + RESET)
+    print(GREEN + BOLD + "                       /|     |\\       /|     |\\ " + RESET)
+    print(GREEN + BOLD + "                      (_|     |_)     (_|     |_)" + RESET)
+    print(RED + BOLD + "          _  _____ _____ _______   __   ____ ___  ____  ____  " + RESET)
+    print(RED + BOLD + "         | |/ /_ _|_   _|_   _\\ \\ / /  / ___/ _ \\|  _ \\|  _ \\ " + RESET)
+    print(RED + BOLD + "         | ' / | |  | |   | |  \\ V /  | |  | | | | |_) | |_) |" + RESET)
+    print(RED + BOLD + "         | . \\ | |  | |   | |   | |   | |__| |_| |  _ <|  __/ " + RESET)
+    print(RED + BOLD + "         |_|\\_\\___| |_|   |_|   |_|    \\____\\___/|_|\\_\\_|    " + RESET)
+    print("\n" + GREEN + BOLD + "                        [ made by kitty corp ]" + RESET)
+    print(RED + BOLD + "               https://thekittycorp.com/ - support us 🩷" + RESET)
+    print(GREEN + "      Advanced Enterprise Load Testing & WAF Bypass Suite | Kali & Windows" + RESET)
+    print(RED + BOLD + "    =========================================================================\n" + RESET)
 
 def ask_permission():
-    print(f"{RED}{BOLD}[!] LEGAL DISCLAIMER & AUTHORIZATION GATE [!]{RESET}")
-    print(f"{YELLOW}-------------------------------------------------------------------------{RESET}")
-    print(f"{WHITE}This tool is strictly for {GREEN}{BOLD}educational and research purposes{RESET}{WHITE} and for")
-    print(f"benchmarking websites you own or have explicit written permission to test.")
-    print(f"{RED}{BOLD}You are solely responsible for every action performed with this tool.{RESET}")
-    print(f"{YELLOW}-------------------------------------------------------------------------{RESET}\n")
+    print(RED + BOLD + "[!] LEGAL DISCLAIMER & AUTHORIZATION GATE [!]" + RESET)
+    print(YELLOW + "-------------------------------------------------------------------------" + RESET)
+    print(WHITE + "This tool is strictly for " + GREEN + BOLD + "educational and research purposes" + RESET + WHITE + " and for")
+    print("benchmarking websites you own or have explicit written permission to test.")
+    print(RED + BOLD + "You are solely responsible for every action performed with this tool." + RESET)
+    print(YELLOW + "-------------------------------------------------------------------------\n" + RESET)
     
     try:
-        consent = input(f"{GREEN}{BOLD}[?] Do you agree that this is for educational/research purposes and accept full responsibility? (yes/no): {RESET}").strip().lower()
+        consent = input(GREEN + BOLD + "[?] Do you agree that this is for educational/research purposes and accept full responsibility? (yes/no): " + RESET).strip().lower()
     except (KeyboardInterrupt, EOFError):
-        print(f"\n{RED}[!] Aborted by user.{RESET}")
+        print("\n" + RED + "[!] Aborted by user." + RESET)
         sys.exit(0)
 
     if consent not in ['yes', 'y']:
-        print(f"\n{RED}{BOLD}[X] Permission denied. Exiting Kitty Corp Testing Engine.{RESET}")
+        print("\n" + RED + BOLD + "[X] Permission denied. Exiting Kitty Corp Testing Engine." + RESET)
         sys.exit(0)
-    print(f"\n{GREEN}[+] Authorization confirmed. Initializing enterprise engine...{RESET}\n")
+    print("\n" + GREEN + "[+] Authorization confirmed. Initializing enterprise engine...\n" + RESET)
 
 def validate_url(url: str) -> str:
     url = url.strip()
@@ -122,7 +116,6 @@ async def send_request_advanced(session, base_url, mode, req_id, semaphore, stat
         }
 
         if mode == 2:
-            # Intense mode: Cache-busting, referer randomization, and high-frequency bypass strings
             sep = "&" if "?" in target_url else "?"
             target_url = f"{target_url}{sep}_kc_cb={req_id}_{random.randint(100000, 999999)}"
             headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
@@ -138,7 +131,7 @@ async def send_request_advanced(session, base_url, mode, req_id, semaphore, stat
         try:
             async with session.get(target_url, headers=headers, allow_redirects=True, ssl=False) as response:
                 await response.read()
-                elapsed = (time.perf_counter() - start_t) * 1000.0  # ms
+                elapsed = (time.perf_counter() - start_t) * 1000.0
                 code = response.status
                 stats["completed"] += 1
                 stats["latencies"].append(elapsed)
@@ -188,7 +181,7 @@ async def progress_monitor(total_requests, stats, start_time):
 
 async def run_load_test(url: str, mode: int, total_requests: int = 10000, custom_concurrency: int = None):
     if aiohttp is None:
-        print(f"{RED}[!] 'aiohttp' is not installed. Please run: pip install -r requirements.txt{RESET}")
+        print(RED + "[!] 'aiohttp' is not installed. Please run: pip install -r requirements.txt" + RESET)
         sys.exit(1)
 
     concurrency = custom_concurrency if custom_concurrency else (200 if mode == 1 else 500)
@@ -307,10 +300,10 @@ def interactive_menu():
     ask_permission()
 
     try:
-        raw_url = input(f"{GREEN}{BOLD}[1] Enter Target Website URL (e.g., https://example.com): {RESET}")
+        raw_url = input(GREEN + BOLD + "[1] Enter Target Website URL (e.g., https://example.com): " + RESET)
         target_url = validate_url(raw_url)
     except Exception as e:
-        print(f"{RED}[X] Error: {e}{RESET}")
+        print(RED + f"[X] Error: {e}" + RESET)
         sys.exit(1)
 
     print(f"\n{CYAN}{BOLD}Select Enterprise Load Testing Mode (Default: 10,000 Requests):{RESET}")
