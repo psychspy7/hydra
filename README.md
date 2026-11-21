@@ -1,17 +1,16 @@
-# Hydra — Kitty Corp Authorized Website Smoke Tester
+# Hydra — Kitty Corp Authorized Website Capacity Tester
 
-Hydra is a **low-impact, controlled smoke/performance test utility** for websites you own or have explicit authorization to test. It is intended for pre-launch checks, not denial-of-service testing or WAF evasion.
+Hydra provides conservative smoke testing and a staged k6 capacity-test profile for websites you own or have explicit written authorization to test.
 
-## Safety limits
-- Maximum 200 requests per run
-- Maximum 5 concurrent workers
-- Global pacing of 2 requests/second
-- TLS certificate verification enabled
-- Redirects disabled (to avoid following requests outside the selected target)
-- Exact hostname must match both authorization arguments and a typed confirmation
-- No cache-busting, proxy rotation, user-agent rotation, or WAF-bypass behavior
+## Safety first
+- Do not run load tests against a production site without a scheduled test window and approval from your hosting/CDN provider.
+- The Python smoke tester is capped at 200 requests, 5 workers and 2 requests/second.
+- The k6 profile supports up to 100,000 concurrent virtual users, but **100k is a target ceiling, not a promise that one computer can generate that load**. Use properly sized distributed load generators and validate generator CPU, memory, network and connection limits.
+- The k6 script sends ordinary GET requests to one explicitly selected URL. It does not attempt WAF bypass, cache busting, credential testing, or redirect following.
+- Above 5,000 VUs, the script requires explicit high-scale and provider-approval environment confirmations.
+- Thresholds abort the run when errors, rate limiting, or latency exceed the configured limits. Tune thresholds to your actual service-level objectives before a scheduled test.
 
-## Setup
+## Python smoke test setup
 Python 3.10+ recommended.
 
 ```bash
@@ -21,26 +20,45 @@ python -m venv .venv
 python -m pip install -r requirements.txt
 ```
 
-## Run
+Run a small smoke test:
 ```bash
-python kitty_tester.py --url https://example.com --allow-host example.com --confirm-host example.com --requests 20 --concurrency 2
+python kitty_tester.py --url https://thekittycorp.com --allow-host thekittycorp.com --confirm-host thekittycorp.com --requests 20 --concurrency 2
 ```
-Replace `example.com` with a hostname you own or have written authorization to test. The tool asks you to type the hostname again before starting.
 
-## Output
-A timestamped JSON report includes elapsed time, observed request rate, success/failure counts, HTTP status distribution, network exception counts, and latency min/average/P50/P90/P95/max.
+## k6 staged capacity test
+Install k6 on the load-generator host(s). First run a small test (100–1,000 VUs), confirm the generator is not saturated, and review origin/CDN/application/database metrics.
+
+Example for a small test:
+```bash
+k6 run -e TARGET_URL=https://thekittycorp.com/ -e ALLOW_HOST=thekittycorp.com -e CONFIRM_HOST=thekittycorp.com -e HYDRA_AUTHORIZED=YES -e HYDRA_MAX_VUS=100 load_test_k6.js
+```
+
+### High-scale profile (requires provider approval and distributed generators)
+Only after a written test plan, provider approval, monitoring, an emergency stop contact, and a scheduled window are in place:
+
+```bash
+k6 run -e TARGET_URL=https://thekittycorp.com/ -e ALLOW_HOST=thekittycorp.com -e CONFIRM_HOST=thekittycorp.com -e HYDRA_AUTHORIZED=YES -e HYDRA_HIGH_SCALE_APPROVED=YES -e HYDRA_PROVIDER_APPROVAL=YES -e HYDRA_MAX_VUS=100000 -e HYDRA_THINK_TIME=10 load_test_k6.js
+```
+
+The profile ramps in two-minute stages through the capacity ladder, holds the selected ceiling for three minutes, then ramps down. Default think time is 5 seconds; use a realistic value for your expected user journey. A single GET endpoint is only a capacity probe, not a complete simulation of logins, database writes, checkout, or real browsing sessions.
+
+## What to monitor during a run
+- k6: VUs, iteration rate, request rate, p95/p99 latency, timeouts and failed requests
+- CDN/WAF: 429/5xx, origin offload, cache hit ratio and rate-limit events
+- Application: CPU, memory, worker/thread pools, event-loop lag and application errors
+- Database: connections, query latency, pool saturation, locks and CPU
+- Infrastructure: bandwidth, open connections, file descriptors and autoscaling events
+
+Stop immediately if the provider asks, the site becomes unhealthy, error rates rise sharply, or monitoring is unavailable. Do not treat a passing test of the homepage as proof that every product workflow supports the same number of users.
 
 ## Local validation
-Start the local mock server in one terminal:
+Start the local mock server:
 ```bash
 python local_test_server.py
 ```
-In another terminal:
+Then run:
 ```bash
 python kitty_tester.py --url http://127.0.0.1:8080 --allow-host 127.0.0.1 --confirm-host 127.0.0.1 --requests 10 --concurrency 2
 ```
 
-## Other integrations
-The repository retains example Locust and k6 files. Review their configured targets and test profile before running; do not run them against production or third-party systems without authorization and an approved test window.
-
-**Use responsibly:** even small tests can affect services. Coordinate with your hosting provider and monitor application, database, CDN, and error logs.
+Use only targets you own or are authorized to test. Even a legitimate load test can disrupt shared hosting and other tenants.
