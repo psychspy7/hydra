@@ -1,2 +1,6 @@
-
 __pycache__/
+.venv/
+*.py[cod]
+hydra_report_*.json
+hydra_browser_report_*.json
+.playwright/
