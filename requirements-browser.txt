@@ -1,0 +1,2 @@
+# Optional browser compatibility check (install separately from base requirements)
+playwright>=1.48,<2
